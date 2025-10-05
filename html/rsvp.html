@@ -67,13 +67,13 @@
 					let html = `<h2>Welcome, ${data.display_name}!</h2><p>Please RSVP for the following events:</p><form id="rsvpForm" onsubmit="submitRSVP(event)">`;
 
 					if (data.ceremony_invite)
-						html += `<label>Ceremony:</label><select name="ceremony" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
+						html += `<label>Ceremony: </label><select name="ceremony" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
 
 					if (data.reception_invite)
-						html += `<label>Reception:</label><select name="reception" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
+						html += `<label>Reception: </label><select name="reception" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
 
 					if (data.california_open_house_invite)
-						html += `<label>California Open House:</label><select name="california" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
+						html += `<label>California Open House: </label><select name="california" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
 
 					html += `
 			<label>Bringing a plus one?</label>
