@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Macey & Isaac - RSVP</title>
+		<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Merriweather:wght@400;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="../styles/rsvp.css" />
+	</head>
+	<body>
+		<nav>
+			<a href="../index.html">Home</a>
+			<a href="ourstory.html">Our Story</a>
+			<a href="#" class="active">RSVP</a>
+			<a href="#">Photos</a>
+			<a href="#">Registry</a>
+		</nav>
+
+		<section class="rsvp-container">
+			<h1>RSVP</h1>
+			<hr />
+
+			<p>Please enter your full name to view your invitation details:</p>
+
+			<div class="form-group">
+				<input type="text" id="firstName" placeholder="First Name" required />
+				<input type="text" id="lastName" placeholder="Last Name" required />
+				<button onclick="lookupGuest()">Lookup</button>
+			</div>
+
+			<div id="results"></div>
+		</section>
+
+		<script>
+			const scriptURL = "https://script.google.com/macros/s/AKfycbzqLuH-Tnu_evGDyjomc4Un8GaHPTlP0OWO1mKFzdqoClOCtgU0b4z-kEpOeesZ6qPIhg/exec";
+
+			async function lookupGuest() {
+				const firstName = document.getElementById("firstName").value.trim();
+				const lastName = document.getElementById("lastName").value.trim();
+				const results = document.getElementById("results");
+
+				if (!firstName || !lastName) {
+					results.innerHTML = "<p class='error'>Please enter both first and last name.</p>";
+					return;
+				}
+
+				results.innerHTML = "<p>Searching...</p>";
+
+				try {
+					const response = await fetch(`${scriptURL}?action=lookup&first=${firstName}&last=${lastName}`);
+					const data = await response.json();
+
+					if (!data.found) {
+						results.innerHTML = "<p class='error'>Name not found. Please double-check your entry.</p>";
+						return;
+					}
+
+					let html = `<h2>Welcome, ${data.display_name}!</h2><p>Please RSVP for the following events:</p><form id="rsvpForm">`;
+
+					if (data.ceremony_invite) html += `<label>Ceremony:</label><select name="ceremony"><option>Yes</option><option>No</option></select><br><br>`;
+					if (data.reception_invite) html += `<label>Reception:</label><select name="reception"><option>Yes</option><option>No</option></select><br><br>`;
+					if (data.california_open_house_invite)
+						html += `<label>California Open House:</label><select name="california"><option>Yes</option><option>No</option></select><br><br>`;
+
+					html += `
+						<label>Bringing a plus one?</label>
+						<select id="plusOne" name="plusOne" onchange="togglePlusOneName(this)">
+							<option value="No">No</option>
+							<option value="Yes">Yes</option>
+						</select>
+						<div id="plusOneName" style="display:none; margin-top:10px;">
+							<input type="text" placeholder="Plus One Name" name="plusOneName">
+						</div>
+						<br><br>
+						<button type="submit">Submit RSVP</button>
+					</form>`;
+
+					results.innerHTML = html;
+				} catch (err) {
+					console.error(err);
+					results.innerHTML = "<p class='error'>Error connecting to server. Try again later.</p>";
+				}
+			}
+
+			function togglePlusOneName(select) {
+				document.getElementById("plusOneName").style.display = select.value === "Yes" ? "block" : "none";
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,81 @@
+body {
+	margin: 0;
+	font-family: "Playfair Display", serif;
+	background-color: #f8f8f8;
+	color: #333;
+}
+
+nav {
+	text-align: center;
+	padding: 1rem;
+	border-bottom: 1px solid #ccc;
+	background-color: #fff;
+}
+
+nav a {
+	text-decoration: none;
+	color: #333;
+	margin: 0 1rem;
+	font-family: "Merriweather", serif;
+}
+
+nav a.active {
+	font-weight: bold;
+}
+
+.rsvp-container {
+	max-width: 800px;
+	margin: 4rem auto;
+	text-align: center;
+	padding: 0 2rem;
+	line-height: 1.8;
+}
+
+.rsvp-container h1 {
+	font-size: 2.5rem;
+	margin-bottom: 1rem;
+}
+
+.rsvp-container hr {
+	border: none;
+	border-top: 1px solid #ccc;
+	width: 60%;
+	margin: 2rem auto;
+}
+
+.rsvp-container p {
+	font-size: 1.1rem;
+	margin-bottom: 1.5rem;
+}
+
+.form-group {
+	margin: 2rem 0;
+}
+
+input {
+	padding: 10px;
+	font-size: 1rem;
+	margin: 5px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+button {
+	background-color: #333;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	font-family: "Merriweather", serif;
+}
+
+button:hover {
+	background-color: #555;
+}
+
+.error {
+	color: red;
+	margin-top: 1rem;
+}
