@@ -33,6 +33,7 @@
 
 		<script>
 			const scriptURL = "https://script.google.com/macros/s/AKfycbwTbJbfSmJl77FfUUXEjRP3Ww68Nah_idALviogV_bYgwIkCiOH-N0h3r0X5iggt4xgUw/exec";
+			let currentGuest = null;
 
 			async function lookupGuest() {
 				const firstName = document.getElementById("firstName").value.trim();
@@ -47,7 +48,7 @@
 				results.innerHTML = "<p>Searching...</p>";
 
 				try {
-					const response = await fetch(`${scriptURL}?action=lookup&first=${firstName}&last=${lastName}`);
+					const response = await fetch(`${scriptURL}?action=lookup&first=${encodeURIComponent(firstName)}&last=${encodeURIComponent(lastName)}`);
 					const data = await response.json();
 
 					if (!data.found) {
@@ -55,30 +56,79 @@
 						return;
 					}
 
-					let html = `<h2>Welcome, ${data.display_name}!</h2><p>Please RSVP for the following events:</p><form id="rsvpForm">`;
+					// Store guest data for submission
+					currentGuest = {
+						guest_id: data.guest_id,
+						display_name: data.display_name,
+						name_entered: `${firstName} ${lastName}`,
+					};
 
-					if (data.ceremony_invite) html += `<label>Ceremony:</label><select name="ceremony"><option>Yes</option><option>No</option></select><br><br>`;
-					if (data.reception_invite) html += `<label>Reception:</label><select name="reception"><option>Yes</option><option>No</option></select><br><br>`;
+					let html = `<h2>Welcome, ${data.display_name}!</h2><p>Please RSVP for the following events:</p><form id="rsvpForm" onsubmit="submitRSVP(event)">`;
+
+					if (data.ceremony_invite)
+						html += `<label>Ceremony:</label><select name="ceremony" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
+
+					if (data.reception_invite)
+						html += `<label>Reception:</label><select name="reception" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
+
 					if (data.california_open_house_invite)
-						html += `<label>California Open House:</label><select name="california"><option>Yes</option><option>No</option></select><br><br>`;
+						html += `<label>California Open House:</label><select name="california" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
 
 					html += `
-						<label>Bringing a plus one?</label>
-						<select id="plusOne" name="plusOne" onchange="togglePlusOneName(this)">
-							<option value="No">No</option>
-							<option value="Yes">Yes</option>
-						</select>
-						<div id="plusOneName" style="display:none; margin-top:10px;">
-							<input type="text" placeholder="Plus One Name" name="plusOneName">
-						</div>
-						<br><br>
-						<button type="submit">Submit RSVP</button>
-					</form>`;
+			<label>Bringing a plus one?</label>
+			<select id="plusOne" name="plusOne" onchange="togglePlusOneName(this)">
+				<option value="No">No</option>
+				<option value="Yes">Yes</option>
+			</select>
+			<div id="plusOneName" style="display:none; margin-top:10px;">
+				<input type="text" placeholder="Plus One Name" name="plusOneName">
+			</div>
+			<br><br>
+			<label>Comments (optional):</label>
+			<textarea name="comments" rows="3" style="width:100%; margin-top:5px;"></textarea>
+			<br><br>
+			<button type="submit">Submit RSVP</button>
+		</form>`;
 
 					results.innerHTML = html;
 				} catch (err) {
 					console.error(err);
 					results.innerHTML = "<p class='error'>Error connecting to server. Try again later.</p>";
+				}
+			}
+
+			async function submitRSVP(event) {
+				event.preventDefault();
+
+				const form = event.target;
+				const formData = new FormData(form);
+				const results = document.getElementById("results");
+
+				// Build submission URL
+				let submitURL = `${scriptURL}?action=submit`;
+				submitURL += `&guest_id=${encodeURIComponent(currentGuest.guest_id)}`;
+				submitURL += `&name_entered=${encodeURIComponent(currentGuest.name_entered)}`;
+				submitURL += `&ceremony_response=${encodeURIComponent(formData.get("ceremony") || "N/A")}`;
+				submitURL += `&reception_response=${encodeURIComponent(formData.get("reception") || "N/A")}`;
+				submitURL += `&california_response=${encodeURIComponent(formData.get("california") || "N/A")}`;
+				submitURL += `&bringing_plus_one=${encodeURIComponent(formData.get("plusOne") || "No")}`;
+				submitURL += `&plus_one_name=${encodeURIComponent(formData.get("plusOneName") || "")}`;
+				submitURL += `&comments=${encodeURIComponent(formData.get("comments") || "")}`;
+
+				results.innerHTML = "<p>Submitting your RSVP...</p>";
+
+				try {
+					const response = await fetch(submitURL);
+					const data = await response.json();
+
+					if (data.success) {
+						results.innerHTML = `<div style="text-align:center; padding:20px;"><h2>✓ Thank You!</h2><p>Your RSVP has been submitted successfully.</p><p>We look forward to celebrating with you!</p></div>`;
+					} else {
+						results.innerHTML = "<p class='error'>There was an issue submitting your RSVP. Please try again.</p>";
+					}
+				} catch (err) {
+					console.error(err);
+					results.innerHTML = "<p class='error'>Error submitting RSVP. Please try again later.</p>";
 				}
 			}
 
