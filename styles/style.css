@@ -134,6 +134,12 @@ footer {
 
 /* Responsive */
 @media (max-width: 768px) {
+	.nav {
+		flex-direction: column;
+		gap: 20px;
+		align-items: center;
+	}
+
 	.event-container {
 		flex-direction: column;
 		gap: 40px;
