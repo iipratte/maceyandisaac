@@ -1,0 +1,147 @@
+/* Global Styles */
+body {
+	margin: 0;
+	font-family: "Playfair Display", serif;
+	background-color: #f8f8f8;
+	color: #333;
+}
+
+/* Navigation */
+nav {
+	text-align: center;
+	padding: 1rem;
+	border-bottom: 1px solid #ccc;
+	background-color: #fff;
+}
+
+nav a {
+	text-decoration: none;
+	color: #333;
+	margin: 0 1rem;
+	font-family: "Merriweather", serif;
+}
+
+nav a.active {
+	font-weight: bold;
+}
+
+/* Shared Container Styles */
+.story-container,
+.qa-container,
+.rsvp-container {
+	max-width: 800px;
+	margin: 4rem auto;
+	text-align: center;
+	padding: 0 2rem;
+	line-height: 1.8;
+}
+
+.story-container h1,
+.qa-container h1,
+.rsvp-container h1 {
+	font-size: 2.5rem;
+	margin-bottom: 1rem;
+}
+
+.story-container hr,
+.qa-container hr,
+.rsvp-container hr {
+	border: none;
+	border-top: 1px solid #ccc;
+	width: 60%;
+	margin: 2rem auto;
+}
+
+.story-container p,
+.rsvp-container p {
+	font-size: 1.1rem;
+	margin-bottom: 1.5rem;
+}
+
+/* Our Story Page */
+.dates {
+	margin-top: 2rem;
+	font-size: 1rem;
+	font-family: "Merriweather", serif;
+	color: #555;
+}
+
+/* Q&A Page */
+.qa-item {
+	margin-bottom: 3rem;
+}
+
+.qa-item h2 {
+	font-size: 1.4rem;
+	font-family: "Merriweather", serif;
+	margin-bottom: 0.5rem;
+	color: #444;
+}
+
+.qa-item p {
+	font-size: 1.1rem;
+	margin: 0 auto;
+	max-width: 600px;
+	color: #555;
+}
+
+/* RSVP Page */
+.form-group {
+	margin: 2rem 0;
+}
+
+input {
+	padding: 10px;
+	font-size: 1rem;
+	margin: 5px;
+	border-radius: 5px;
+	border: 1px solid #ccc;
+}
+
+button {
+	background-color: #333;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	font-size: 1rem;
+	border-radius: 5px;
+	cursor: pointer;
+	font-family: "Merriweather", serif;
+}
+
+button:hover {
+	background-color: #555;
+}
+
+.error {
+	color: red;
+	margin-top: 1rem;
+}
+
+/* Mobile Navigation */
+@media (max-width: 768px) {
+	nav {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		padding: 1.5rem 1rem;
+	}
+
+	nav a {
+		margin: 0;
+		padding: 0.5rem;
+	}
+
+	.story-container,
+	.qa-container,
+	.rsvp-container {
+		margin: 2rem auto;
+		padding: 0 1.5rem;
+	}
+
+	.story-container h1,
+	.qa-container h1,
+	.rsvp-container h1 {
+		font-size: 2rem;
+	}
+}
