@@ -77,15 +77,6 @@
 						html += `<label>California Open House: </label><select name="california" required><option value="">Select...</option><option value="Yes">Yes</option><option value="No">No</option></select><br><br>`;
 
 					html += `
-			<label>Bringing a plus one?</label>
-			<select id="plusOne" name="plusOne" onchange="togglePlusOneName(this)">
-				<option value="No">No</option>
-				<option value="Yes">Yes</option>
-			</select>
-			<div id="plusOneName" style="display:none; margin-top:10px;">
-				<input type="text" placeholder="Plus One Name" name="plusOneName">
-			</div>
-			<br><br>
 			<label>If you're filling this our for your whole family, please list everyone who will be joining you (or any additional comments):</label>
 			<textarea name="comments" rows="3" style="width:100%; margin-top:5px;"></textarea>
 			<br><br>
@@ -113,8 +104,6 @@
 				submitURL += `&ceremony_response=${encodeURIComponent(formData.get("ceremony") || "N/A")}`;
 				submitURL += `&reception_response=${encodeURIComponent(formData.get("reception") || "N/A")}`;
 				submitURL += `&california_response=${encodeURIComponent(formData.get("california") || "N/A")}`;
-				submitURL += `&bringing_plus_one=${encodeURIComponent(formData.get("plusOne") || "No")}`;
-				submitURL += `&plus_one_name=${encodeURIComponent(formData.get("plusOneName") || "")}`;
 				submitURL += `&comments=${encodeURIComponent(formData.get("comments") || "")}`;
 
 				results.innerHTML = "<p>Submitting your RSVP...</p>";
@@ -132,10 +121,6 @@
 					console.error(err);
 					results.innerHTML = "<p class='error'>Error submitting RSVP. Please try again later.</p>";
 				}
-			}
-
-			function togglePlusOneName(select) {
-				document.getElementById("plusOneName").style.display = select.value === "Yes" ? "block" : "none";
 			}
 		</script>
 	</body>
