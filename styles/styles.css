@@ -145,3 +145,18 @@ button:hover {
 		font-size: 2rem;
 	}
 }
+
+/* Mobile RSVP Form */
+@media (max-width: 768px) {
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+	}
+
+	.form-group input,
+	.form-group button {
+		margin: 5px 0;
+		width: 100%;
+	}
+}
