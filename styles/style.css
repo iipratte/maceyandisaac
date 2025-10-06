@@ -143,5 +143,11 @@ footer {
 	.event-container {
 		flex-direction: column;
 		gap: 40px;
+		align-items: center;
+	}
+
+	.event-column {
+		width: 100%;
+		max-width: 400px;
 	}
 }
