@@ -146,17 +146,78 @@ button:hover {
 	}
 }
 
+
+/* Hamburger Menu */
+.menu-toggle {
+	display: none;
+	background: none;
+	border: none;
+	flex-direction: column;
+	gap: 5px;
+	cursor: pointer;
+	padding: 10px;
+	margin: 10px auto 0;
+}
+
+.menu-toggle span {
+	width: 25px;
+	height: 2px;
+	background-color: #333;
+	transition: all 0.3s;
+}
+
+.menu-toggle:hover {
+	background: transparent;
+}
+
 /* Mobile RSVP Form */
+/* Mobile Navigation */
 @media (max-width: 768px) {
-	.form-group {
+	.menu-toggle {
 		display: flex;
-		flex-direction: column;
-		align-items: stretch;
+		background-color: #fff;
+		margin: 0;
+		padding: 15px;
+		width: 100%;
+		border-bottom: 1px solid #ccc;
+		align-items: flex-end;
+	}
+	
+	nav a {
+		margin: 0;
+		padding: 15px;
+		border-bottom: 1px solid #e0e0e0;
+		text-align: right;
 	}
 
-	.form-group input,
-	.form-group button {
-		margin: 5px 0;
-		width: 100%;
+	nav {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		padding: 0;
+		max-height: 0;
+		overflow: hidden;
+		transition: max-height 0.3s ease;
+		border-bottom: none;
+	}
+
+	nav.active {
+		max-height: 400px;
+		border-bottom: 1px solid #ccc;
+	}
+
+	.story-container,
+	.qa-container,
+	.rsvp-container {
+		margin: 2rem auto;
+		padding: 0 1.5rem;
+	}
+
+	.story-container h1,
+	.qa-container h1,
+	.rsvp-container h1 {
+		font-size: 2rem;
 	}
 }
+
+
